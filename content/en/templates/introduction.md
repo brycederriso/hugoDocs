@@ -144,14 +144,11 @@ There are more boolean operators than those listed in the Hugo docs in the [Go T
 
 ## Includes
 
-When including another template, you will need to pass it the data that it would
-need to access.
+Hugo allows you to include templates inside *other* templates with the `partial` and `template` functions.
 
-{{% note %}}
-To pass along the current context, please remember to include a trailing **dot**.
-{{% /note %}}
+When including another template, you will need to explicitly pass along the data, or context, for it to use.
 
-The templates location will always be starting at the `layouts/` directory
+The path to a template will always implicitly start at the `layouts/` directory
 within Hugo.
 
 ### Partial
@@ -159,16 +156,20 @@ within Hugo.
 The [`partial`][partials] function is used to include *partial* templates using
 the syntax `{{ partial "<PATH>/<PARTIAL>.<EXTENSION>" . }}`.
 
-Example of including a `layouts/partials/header.html` partial:
+An example of including the `layouts/partials/header.html` partial:
 
 ```go-html-template
 {{ partial "header.html" . }}
 ```
 
+{{% note %}}
+The current context is included by adding a trailing **dot**. This is a common pattern in Hugo.
+{{% /note %}}
+
 ### Template
 
 The `template` function was used to include *partial* templates
-in much older Hugo versions. Now it's useful only for calling
+in much older Hugo versions. Now, it's useful only for calling
 [*internal* templates][internal_templates]. The syntax is `{{ template
 "_internal/<TEMPLATE>.<EXTENSION>" . }}`.
 
@@ -177,11 +178,15 @@ The available **internal** templates can be found
 [here](https://github.com/gohugoio/hugo/tree/master/tpl/tplimpl/embedded/templates).
 {{% /note %}}
 
-Example of including the internal `opengraph.html` template:
+An example of including the internal `opengraph.html` template:
 
 ```go-html-template
 {{ template "_internal/opengraph.html" . }}
 ```
+
+{{% note %}}
+The current context is included by adding a trailing **dot**. This is a common pattern in Hugo.
+{{% /note %}}
 
 ## Logic
 
